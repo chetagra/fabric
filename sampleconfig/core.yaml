@@ -301,28 +301,32 @@ peer:
     # BCCSP (Blockchain crypto provider): Select which crypto implementation or
     # library to use
     BCCSP:
-        Default: SW
-        # Settings for the SW crypto provider (i.e. when DEFAULT: SW)
-        SW:
-            # TODO: The default Hash and Security level needs refactoring to be
-            # fully configurable. Changing these defaults requires coordination
-            # SHA2 is hardcoded in several places, not only BCCSP
-            Hash: SHA2
-            Security: 256
-            # Location of Key Store
-            FileKeyStore:
-                # If "", defaults to 'mspConfigPath'/keystore
-                KeyStore:
+        Default: PKCS11
+        # # Settings for the SW crypto provider (i.e. when DEFAULT: SW)
+        # SW:
+        #     # TODO: The default Hash and Security level needs refactoring to be
+        #     # fully configurable. Changing these defaults requires coordination
+        #     # SHA2 is hardcoded in several places, not only BCCSP
+        #     Hash: SHA2
+        #     Security: 256
+        #     # Location of Key Store
+        #     FileKeyStore:
+        #         # If "", defaults to 'mspConfigPath'/keystore
+        #         KeyStore:
         # Settings for the PKCS#11 crypto provider (i.e. when DEFAULT: PKCS11)
         PKCS11:
             # Location of the PKCS11 module library
-            Library:
+            Library: /usr/local/lib/softhsm/libsofthsm2.so
             # Token Label
-            Label:
+            Label: fabric
             # User PIN
-            Pin:
-            Hash:
-            Security:
+            Pin: 1234
+            Hash: SHA2
+            Security: 256
+            FileKeyStore:
+                # If "", defaults to 'mspConfigPath'/keystore
+                KeyStore:
+            # Immutable: false
 
     # Path on the file system where peer will find MSP local configurations
     mspConfigPath: msp

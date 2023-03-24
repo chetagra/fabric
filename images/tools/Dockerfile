@@ -3,30 +3,31 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ARG GO_VER
-ARG ALPINE_VER
-FROM golang:${GO_VER}-alpine${ALPINE_VER} as golang
+ARG UBUNTU_VER
+FROM golang:${GO_VER} as golang
 
-RUN apk add --no-cache \
+RUN apt update && apt install -y \
 	bash \
 	gcc \
 	git \
 	make \
 	musl-dev;
 
-ADD . $GOPATH/src/github.com/hyperledger/fabric
-WORKDIR $GOPATH/src/github.com/hyperledger/fabric
+ADD . /home/chetan/fabric
+WORKDIR /home/chetan/fabric
 
 FROM golang as tools
 RUN make configtxgen configtxlator cryptogen peer discover idemixgen
 
-FROM golang:${GO_VER}-alpine
+FROM golang:${GO_VER}
 # git is required to support `go list -m`
-RUN apk add --no-cache \
+RUN apt upgrade && apt update
+RUN apt install -y \
 	bash \
 	git \
 	jq \
 	tzdata;
 ENV FABRIC_CFG_PATH /etc/hyperledger/fabric
 VOLUME /etc/hyperledger/fabric
-COPY --from=tools /go/src/github.com/hyperledger/fabric/build/bin /usr/local/bin
-COPY --from=tools /go/src/github.com/hyperledger/fabric/sampleconfig ${FABRIC_CFG_PATH}
+COPY --from=tools /home/chetan/fabric/build/bin /usr/local/bin
+COPY --from=tools /home/chetan/fabric/sampleconfig ${FABRIC_CFG_PATH}

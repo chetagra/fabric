@@ -3,9 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ARG GO_VER
-ARG ALPINE_VER
+ARG UBUNTU_VER
 
-FROM alpine:${ALPINE_VER} as base
-RUN apk add --no-cache tzdata
-RUN addgroup -g 500 chaincode && adduser -u 500 -D -h /home/chaincode -G chaincode chaincode
-USER chaincode
+FROM ubuntu:${UBUNTU_VER} as base
+RUN apt update && apt install -y tzdata
+RUN addgroup --gid 500 chaincode && adduser --disabled-password --gecos "" --uid 500 --gid 500 --home /home/chaincode chaincode

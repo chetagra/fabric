@@ -44,7 +44,7 @@
 #   - unit-test - runs the go-test based unit tests
 #   - verify - runs unit tests for only the changed package tree
 
-ALPINE_VER ?= 3.16
+UBUNTU_VER ?= 20.04
 BASE_VERSION = 2.2.10
 
 # 3rd party image version
@@ -66,7 +66,7 @@ PROJECT_VERSION=$(BASE_VERSION)-snapshot-$(EXTRA_VERSION)
 # for two digit references to most recent baseos and ccenv patch releases
 TWO_DIGIT_VERSION = $(shell echo $(BASE_VERSION) | cut -d '.' -f 1,2)
 
-PKGNAME = github.com/hyperledger/fabric
+PKGNAME = /home/chetan/fabric
 ARCH=$(shell go env GOARCH)
 MARCH=$(shell go env GOOS)-$(shell go env GOARCH)
 
@@ -225,7 +225,7 @@ $(BUILD_DIR)/images/%/$(DUMMY):
 	@mkdir -p $(@D)
 	$(DBUILD) -f images/$*/Dockerfile \
 		--build-arg GO_VER=$(GO_VER) \
-		--build-arg ALPINE_VER=$(ALPINE_VER) \
+		--build-arg UBUNTU_VER=$(UBUNTU_VER) \
 		$(BUILD_ARGS) \
 		-t $(DOCKER_NS)/fabric-$* ./$(BUILD_CONTEXT)
 	docker tag $(DOCKER_NS)/fabric-$* $(DOCKER_NS)/fabric-$*:$(BASE_VERSION)

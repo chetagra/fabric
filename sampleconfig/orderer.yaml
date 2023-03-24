@@ -117,32 +117,33 @@ General:
         # Valid providers are:
         #  - SW: a software based crypto provider
         #  - PKCS11: a CA hardware security module crypto provider.
-        Default: SW
+        Default: PKCS11
 
         # SW configures the software based blockchain crypto provider.
-        SW:
-            # TODO: The default Hash and Security level needs refactoring to be
-            # fully configurable. Changing these defaults requires coordination
-            # SHA2 is hardcoded in several places, not only BCCSP
-            Hash: SHA2
-            Security: 256
-            # Location of key store. If this is unset, a location will be
-            # chosen using: 'LocalMSPDir'/keystore
-            FileKeyStore:
-                KeyStore:
+        # SW:
+        #     # TODO: The default Hash and Security level needs refactoring to be
+        #     # fully configurable. Changing these defaults requires coordination
+        #     # SHA2 is hardcoded in several places, not only BCCSP
+        #     Hash: SHA2
+        #     Security: 256
+        #     # Location of key store. If this is unset, a location will be
+        #     # chosen using: 'LocalMSPDir'/keystore
+        #     FileKeyStore:
+        #         KeyStore:
 
-        # Settings for the PKCS#11 crypto provider (i.e. when DEFAULT: PKCS11)
         PKCS11:
-            # Location of the PKCS11 module library
-            Library:
-            # Token Label
-            Label:
-            # User PIN
-            Pin:
-            Hash:
-            Security:
-            FileKeyStore:
-                KeyStore:
+        # Location of the PKCS11 module library
+        Library: /etc/hyperledger/fabric/libsofthsm2.so
+        # Token Label
+        Label: fabric
+        # User PIN
+        Pin: 1234
+        Hash: SHA2
+        Security: 256
+        FileKeyStore:
+            # If "", defaults to 'mspConfigPath'/keystore
+            KeyStore:
+        # Immutable: false
 
     # Authentication contains configuration parameters related to authenticating
     # client messages
